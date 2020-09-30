@@ -10,31 +10,12 @@ import re
 # '192.168.20.230']
 ip_list = []  # Для запуска программы
 
+
 # Функция для получения параметров командной строки
 def create_parser():
     parser = argparse.ArgumentParser()
     parser.add_argument('-n', '--name', type=argparse.FileType(mode='r', bufsize=-1, encoding=None, errors=None))
     return parser
-
-# Для теста задокументировать все с 19 строки до 37
-if __name__ == '__main__':
-    parser = create_parser()
-    namespace = parser.parse_args(sys.argv[1:])
-    ip_list_maybe = namespace.name.read().splitlines()
-    # Проверка соответствия списка ip адресов формату IPv4
-    count: int = 0
-    print(ip_list_maybe)
-    for i in ip_list_maybe:
-        if re.match(r'((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)', i):
-            count += 1
-        else:
-            count = 0
-    if count == len(ip_list_maybe):
-        ip_list = ip_list_maybe
-    elif count != len(ip_list_maybe):
-        print('Contains non-IPv4 ip addresses')
-        exit()
-
 
 # Функция для получения первых трех октетов ip адресов
 def ip_network(ip_list) -> str:
@@ -193,6 +174,24 @@ def ip_reformat(a, b) -> int:
     elif a == 25 and b == 0:
         return find_ip(ip_list, 24, 0)
 
+# Для теста задокументировать все с 19 строки до 37
+if __name__ == '__main__':
+    parser = create_parser()
+    namespace = parser.parse_args(sys.argv[1:])
+    ip_list_maybe = namespace.name.read().splitlines()
+    # Проверка соответствия списка ip адресов формату IPv4
+    count: int = 0
+    print(ip_list_maybe)
+    for i in ip_list_maybe:
+        if re.match(r'((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)', i):
+            count += 1
+        else:
+            count = 0
+    if count == len(ip_list_maybe):
+        ip_list = ip_list_maybe
+    elif count != len(ip_list_maybe):
+        print('Contains non-IPv4 ip addresses')
+        exit()
 
 result = find_ip(ip_list)
 print(f"Result net: {result}")

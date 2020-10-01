@@ -174,7 +174,7 @@ def ip_reformat(a, b) -> int:
     elif a == 25 and b == 0:
         return find_ip(ip_list, 24, 0)
 
-# Для теста задокументировать все с 19 строки до 37
+# Для теста задокументировать все с 178 строки до 195
 if __name__ == '__main__':
     parser = create_parser()
     namespace = parser.parse_args(sys.argv[1:])
